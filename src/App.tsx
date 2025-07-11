@@ -1,15 +1,25 @@
-import { Button } from "@/components/ui/button"
 import { Navbar } from "@/components/ui/navbar"
+import { Footer } from "@/components/ui/footer" 
+import Kalkulator from "@/pages/Kalkulator"
+import Materi from "@/pages/Materi"
+import Tutorial from "@/pages/Tutorial"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+
 
 function App() {
   return (
-    <>
-      <Navbar variant="solid" sticky/>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-        <Button variant="secondary">Secondary</Button>
-      </div>
-    </>
+    <Router>
+      <Navbar />
+      <main className="p-4">
+        <Routes>
+          <Route path="/" element={<Navigate to="/kalkulator" />}></Route>
+          <Route path="/kalkulator" element={<Kalkulator />} />
+          <Route path="/materi" element={<Materi />} />
+          <Route path="/tutorial" element={<Tutorial />} />
+        </Routes>
+      </main>
+      <Footer />
+    </Router>
   )
 }
 

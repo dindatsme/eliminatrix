@@ -2,8 +2,9 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { Moon, Sun } from "lucide-react"
-import { Switch } from "@/components/ui/switch"
+import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
+import { NavLink } from "react-router-dom"
 
 const navbarVariants = cva(
   "w-full border-b border-border backdrop-blur supports-[backdrop-filter]:bg-opacity-70 transition-colors",
@@ -33,7 +34,16 @@ export interface NavbarProps
 const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
   ({ className, variant, sticky, ...props }, ref) => {
     const { theme, setTheme } = useTheme()
+    const [mounted, setMounted] = React.useState(false)
 
+    React.useEffect(() => setMounted(true), [])
+
+    const toggleTheme = () => {
+        if (!mounted) return
+        setTheme(theme === "dark" ? "light" : "dark")
+    }
+
+    const isDark = theme === "dark"
     return (
       <nav
         ref={ref}
@@ -43,17 +53,19 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         <div className="container flex h-14 items-center justify-between px-4">
           <div className="text-lg font-bold text-primary">Eliminatrix</div>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-muted-foreground hover:underline">Kalkulator</a>
-            <a href="#" className="text-sm text-muted-foreground hover:underline">Materi</a>
-            <a href="#" className="text-sm text-muted-foreground hover:underline">Tutorial</a>
-            <div className="flex items-center gap-2">
-              <Sun className="w-4 h-4" />
-              <Switch
-                checked={theme === "dark"}
-                onCheckedChange={(val) => setTheme(val ? "dark" : "light")}
-              />
-              <Moon className="w-4 h-4" />
-            </div>
+            <NavLink to="/kalkulator" className={({ isActive }) => cn("text-sm transition-colors", isActive ? "text-primary underline font-medium" : "text-muted-foreground hover:text-foreground")}>Kalkulator</NavLink>
+            <NavLink to="/materi" className={({ isActive }) => cn("text-sm transition-colors", isActive ? "text-primary underline font-medium" : "text-muted-foreground hover:text-foreground")}>Materi</NavLink>
+            <NavLink to="/tutorial" className={({ isActive }) => cn("text-sm transition-colors", isActive ? "text-primary underline font-medium" : "text-muted-foreground hover:text-foreground")}>Tutorial</NavLink>
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                aria-label="Toggle Theme"
+              >
+                {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-500" />}
+              </Button>
+            )}
           </div>
         </div>
       </nav>
