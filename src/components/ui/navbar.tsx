@@ -58,7 +58,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             <NavLink to="/tutorial" className={({ isActive }) => cn("text-sm transition-colors", isActive ? "text-primary underline font-medium" : "text-muted-foreground hover:text-foreground")}>Tutorial</NavLink>
             {mounted && (
               <Button
-                variant="ghost"
+                variant="default"
                 size="icon"
                 onClick={toggleTheme}
                 aria-label="Toggle Theme"
