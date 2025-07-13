@@ -1,5 +1,5 @@
 import { FormMatrix } from "@/components/ui/form-matrix"
-import { CalculationResult } from "@/components/ui/calculation_result"
+import { CalculationResult } from "@/components/ui/calculation-result"
 import { useState } from "react"
 import { toast } from "sonner"
 //import { Toaster } from "@/components/ui/sonner"
