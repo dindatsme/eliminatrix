@@ -2,7 +2,8 @@ import { FormMatrix } from "@/components/ui/form-matrix"
 import { CalculationResult } from "@/components/ui/calculation-result"
 import { useState } from "react"
 import { toast } from "sonner"
-//import { Toaster } from "@/components/ui/sonner"
+import { solveMatrix, type SolveMatrixRequest } from "@/lib/api"
+import { Separator } from "@/components/ui/separator"
 
 export default function Kalkulator() {
   const [result, setResult] = useState<{
@@ -12,38 +13,34 @@ export default function Kalkulator() {
   } | null>(null)
 
   const handleCalculate = async (
-    matrix: string[][],
-    method: "gauss" | "gauss-jordan"
+    Input: SolveMatrixRequest
   ) => {
+    
+    console.log("REQUEST SENT TO BACKEND", Input)
+
     try {
-      const res = await fetch("/api/solve", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ matrix, method }),
-      })
+      const data = await solveMatrix(Input)
 
-      if (!res.ok) {
-        const err = await res.json()
-        toast.error("Gagal: " + err.detail)
-        return
-      }
-
-      const data = await res.json()
-
-      const toLatex = (m: string[][]) =>
+      const toLatex = (m: number[][]) =>
         "\\begin{bmatrix}" +
-        m.map((row) => row.join(" & ")).join(" \\\\ ") +
+        m.map((row) => {
+          const parts = [...row]
+          const last = parts.pop()!
+          return parts.join(" & ") + " &\\bigm| & " + last
+        }).join(" \\\\ ") +
         "\\end{bmatrix}"
 
       setResult({
-        input: toLatex(matrix),
+        input: toLatex(Input.matrix),
         output: toLatex(data.result),
         steps: data.steps.map((step: any) => ({
           matrix: toLatex(step.matrix),
           desc: step.desc,
         })),
       })
-    } catch (err) {
+    } catch (err: any) {
+      const detail = err?.response?.data?.detail || "Terjadi kesalahan"
+      toast.error("Gagal: " + detail)
       console.error("Error:", err)
     }
   }
@@ -54,7 +51,7 @@ export default function Kalkulator() {
 
       <FormMatrix onCalculate={handleCalculate}/>
 
-      {result && (
+      {result && (<Separator/>) && (
         <CalculationResult
           input={result.input}
           output={result.output}
