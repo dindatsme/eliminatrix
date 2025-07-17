@@ -26,15 +26,26 @@ export function CalculationResult({ input, output, steps }: Props) {
 			</div>
 
 			<div>
-				<h3>Langkah-Langkah</h3>
-				{steps.map((step, i) => (
-					<div key={i} className="flex items-center gap-4 flex-wrap my-4">
-						<BlockMath math={step.matrix} />
-						<div className="text-sm text-muted-foreground">
-							⟶ {<InlineMath math={step.desc} />}
-						</div>
+				<h3 className="font-semibold text-lg mb-2">Langkah-Langkah</h3>
+				<div className="flex flex-wrap gap-4">
+					<div className="flex flex-wrap items-center gap-2">
+						<BlockMath math={input} />
 					</div>
-				))}
+					{steps.map((step, i) => {
+						const arrowCount = Math.max(4, Math.ceil(step.desc.length/2))
+						const line = "—".repeat(arrowCount)
+						return (
+						<div key={i} className="flex flex-wrap items-center gap-2">
+							<div className="relative inline-block">
+								<div className="text-sm text-muted-foreground text-center">
+									{step.desc}
+								</div>
+								<div className="text-primary">{line}{">"}</div>
+							</div>
+							<BlockMath math={step.matrix} />
+						</div>
+					)})}
+				</div>
 			</div>
 		</div>
 	)
