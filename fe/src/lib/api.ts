@@ -4,9 +4,10 @@ export interface SolveMatrixRequest {
 }
 
 export interface SolveMatrixResponse{
-	result: number[][]
+	input: string
+	result: string
 	steps: {
-		matrix: number[][]
+		matrix: string
 		desc:string
 	}[]
 }
@@ -21,8 +22,8 @@ export async function solveMatrix(input:SolveMatrixRequest): Promise<SolveMatrix
 	})
 	
 	if (!response.ok) {
-		const errorText = await response.text()
-		throw new Error(`Backend error: ${response.status} - ${errorText}`)
+		const errorText = await response.json()
+		throw new Error(errorText.detail || "Terjadi kesalahan")
 	}
 
 	const result = await response.json()
