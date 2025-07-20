@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Literal
 from fastapi.middleware.cors import CORSMiddleware
-from solver import gauss_elimination, gauss_jordan_eliminator
+from solver import gauss_elimination, gauss_jordan_eliminator, validate_unique_rows
 
 app = FastAPI()
 
@@ -41,14 +41,18 @@ def solve_matrix(request: MatrixRequest):
             detail="Matrix harus dalam bentuk augmented (kolom = baris + 1)"
         )
     
+    if not validate_unique_rows(matrix):
+        raise HTTPException(status_code=400, detail="Matrix memiliki duplikat atau baris yang linear dependen.")
+    
     try:
         if method == "gauss":
-            result, steps = gauss_elimination(matrix)
+            input, result, steps = gauss_elimination(matrix)
         else:
-            result, steps = gauss_jordan_eliminator(matrix)
+            input, result, steps = gauss_jordan_eliminator(matrix)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     return {
+        "input": input,
         "result": result,
         "steps": steps
     }
