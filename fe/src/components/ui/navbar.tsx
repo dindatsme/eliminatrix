@@ -1,10 +1,10 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
-import { Moon, Sun } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTheme } from "next-themes"
-import { NavLink } from "react-router-dom"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+import { NavLink } from "react-router-dom";
 
 const navbarVariants = cva(
   "w-full border-b border-border backdrop-blur supports-[backdrop-filter]:bg-opacity-70 transition-colors",
@@ -25,7 +25,7 @@ const navbarVariants = cva(
       sticky: false,
     },
   }
-)
+);
 
 export interface NavbarProps
   extends React.HTMLAttributes<HTMLElement>,
@@ -33,17 +33,17 @@ export interface NavbarProps
 
 const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
   ({ className, variant, sticky, ...props }, ref) => {
-    const { theme, setTheme } = useTheme()
-    const [mounted, setMounted] = React.useState(false)
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = React.useState(false);
 
-    React.useEffect(() => setMounted(true), [])
+    React.useEffect(() => setMounted(true), []);
 
     const toggleTheme = () => {
-        if (!mounted) return
-        setTheme(theme === "dark" ? "light" : "dark")
-    }
+      if (!mounted) return;
+      setTheme(theme === "dark" ? "light" : "dark");
+    };
 
-    const isDark = theme === "dark"
+    const isDark = theme === "dark";
     return (
       <nav
         ref={ref}
@@ -51,10 +51,36 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         {...props}
       >
         <div className="flex h-14 items-center justify-between bg-navbar-footer-background px-6">
-          <div className="text-3xl font-text-me-one font-extrabold text-main-foreground">ELIMINATRIX</div>
+          <div className="text-3xl font-text-me-one font-extrabold text-main-foreground">
+            ELIMINATRIX
+          </div>
           <div className="flex items-center max-w-3/7 gap-2 text-xs md:gap-5">
-            <NavLink to="/kalkulator" className={({ isActive }) => cn("md:text-sm transition-colors", isActive ? "text-navbar-footer-foreground hover:text-nf-foreground-active underline font-medium" : "hover:text-nf-foreground-active text-navbar-footer-foreground font-medium")}>Kalkulator</NavLink>
-            <NavLink to="/materi" className={({ isActive }) => cn("md:text-sm transition-colors", isActive ? "text-navbar-footer-foreground hover:text-nf-foreground-active underline font-medium" : "hover:text-nf-foreground-active text-navbar-footer-foreground font-medium")}>Materi</NavLink>
+            <NavLink
+              to="/kalkulator"
+              className={({ isActive }) =>
+                cn(
+                  "md:text-sm transition-colors",
+                  isActive
+                    ? "text-navbar-footer-foreground hover:text-nf-foreground-active underline font-medium"
+                    : "hover:text-nf-foreground-active text-navbar-footer-foreground font-medium"
+                )
+              }
+            >
+              Kalkulator
+            </NavLink>
+            <NavLink
+              to="/materi"
+              className={({ isActive }) =>
+                cn(
+                  "md:text-sm transition-colors",
+                  isActive
+                    ? "text-navbar-footer-foreground hover:text-nf-foreground-active underline font-medium"
+                    : "hover:text-nf-foreground-active text-navbar-footer-foreground font-medium"
+                )
+              }
+            >
+              Materi
+            </NavLink>
             {mounted && (
               <Button
                 variant="default"
@@ -63,16 +89,20 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                 aria-label="Toggle Theme"
                 className="bg-navbar-footer-foreground hover:bg-nf-foreground-hover active:bg-nf-foreground-active"
               >
-                {isDark ? <Sun className="w-5 h-5 text-mode-toggle" /> : <Moon className="w-5 h-5 text-mode-toggle" />}
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-mode-toggle" />
+                ) : (
+                  <Moon className="w-5 h-5 text-mode-toggle" />
+                )}
               </Button>
             )}
           </div>
         </div>
       </nav>
-    )
+    );
   }
-)
+);
 
-Navbar.displayName = "Navbar"
+Navbar.displayName = "Navbar";
 
-export { Navbar, navbarVariants }
+export { Navbar, navbarVariants };

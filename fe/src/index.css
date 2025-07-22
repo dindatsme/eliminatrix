@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Antic&family=Libre+Franklin:ital,wght@0,500;1,500&family=Orienta&family=Paytone+One&family=Text+Me+One&display=swap');@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Antic&family=Libre+Franklin:ital,wght@0,500;1,500&family=Orienta&family=Paytone+One&family=Text+Me+One&display=swap");
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -111,7 +112,7 @@
   --secondary-button-foreground: oklch(0.4715 0.063 264.2);
   --secondary-hover: oklch(0.89 0.012 255);
   --secondary-active: oklch(0.84 0.011 255);
-  --input-fill:	oklch(0.96 0.008 255);
+  --input-fill: oklch(0.96 0.008 255);
   --input-border: oklch(0.87 0.01 240);
   --muted-col: oklch(0.6 0.025 264.2);
   --mode-toggle: oklch(0.925 0.01 240);

@@ -1,16 +1,20 @@
-import { Navbar } from "@/components/ui/navbar"
-import { Footer } from "@/components/ui/footer" 
-import Kalkulator from "@/pages/Kalkulator"
-import Materi from "@/pages/Materi"
+import { Navbar } from "@/components/ui/navbar";
+import { Footer } from "@/components/ui/footer";
+import Kalkulator from "@/pages/Kalkulator";
+import Materi from "@/pages/Materi";
 // import Tutorial from "@/pages/Tutorial"
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
-import { Toaster } from "@/components/ui/sonner"
-
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (
     <Router>
-      <Navbar sticky/>
+      <Navbar sticky />
       <main className="p-6 flex-grow">
         <Toaster />
         <Routes>
@@ -19,9 +23,9 @@ function App() {
           <Route path="/materi" element={<Materi />} />
         </Routes>
       </main>
-      <Footer className="bg-navbar-footer-background"/>
+      <Footer className="bg-navbar-footer-background" />
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
